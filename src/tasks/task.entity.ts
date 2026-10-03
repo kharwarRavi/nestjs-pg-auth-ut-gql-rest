@@ -1,17 +1,29 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { TaskStatus } from "./task-status.enum";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { TaskStatus } from './task-status.enum';
+import { User } from '../auth/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Task extends BaseEntity {
-	@PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-	@Column()
+  @Column()
   title: string;
 
-	@Column()
+  @Column()
   description: string;
 
-	@Column()
+  @Column()
   status: TaskStatus;
+
+  @ManyToOne((_type) => User, (user) => user.tasks, { eager: false })
+  @Exclude({ toPlainOnly: true })
+  user: User;
 }

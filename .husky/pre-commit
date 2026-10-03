@@ -1,0 +1,3 @@
+# 1. Format and lint staged files
+
+yarn dlx lint-staged
